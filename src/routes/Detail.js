@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Movie from '../components/Movie';
+import styles from '../routes/Detail.module.css';
 
 function Detail() {
   const [loading, setLoading] = useState(true);
@@ -19,28 +20,39 @@ function Detail() {
     getMovie();
   }, []);
   return (
-    <div>
+    <div className={styles.detail}>
       {loading ? (
         <h1>Loading...</h1>
       ) : (
         <div>
-          <img src={movies.medium_cover_image} />
-          <hr />
-          <h2>
-            {movies.title} {movies.year} ({movies.rating})
-          </h2>
-          <h3>
-            장르: {movies.genres}
-            <br />
-            Running Time: {movies.runtime}분
-            <br />
-            Description : {movies.description_intro}
-            <br />
-            다운로드 링크: <a href={movies.url}>Clcik</a>
-          </h3>
-          <h3>
-            <Link to={`/`}>Return to Home</Link>
-          </h3>
+          <img
+            src={movies.background_image}
+            className={styles.detail__background_image}
+          />
+          <div className={styles.detail__content}>
+            <img
+              src={movies.medium_cover_image}
+              className={styles.detail__img}
+            />
+            <h1>
+              {movies.title} {movies.year}
+            </h1>
+            <h3>
+              <ul>
+                {movies.description_intro.length > 235
+                  ? `${movies.description_intro.slice(0, 235)}...`
+                  : movies.description_intro}
+              </ul>
+              <ul>Genres: {movies.genres}</ul>
+              <ul>Running Time: {movies.runtime} minuite</ul>
+              <ul>
+                Download Link: <a href={movies.url}>Clcik</a>
+              </ul>
+            </h3>
+            <h3>
+              <Link to={`/`}>Home</Link>
+            </h3>
+          </div>
         </div>
       )}
     </div>
